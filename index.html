@@ -1,23 +1,847 @@
-<!DOCTYPE html>
-<html lang="en">
-  <head>
-    <title>Home</title>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width" />
-    <!--
-      Need a visual blank slate?
-      Remove all code in `styles.css`!
-    -->
-    <link rel="stylesheet" href="styles.css" />
-    <script type="module" src="script.js"></script>
-  </head>
-  <body>
-    <nav>
-      <a href="/" aria-current="page">Home</a>
-      <a href="/page2.html">Other page</a>
-    </nav>
-    <main>
-      <h1>Home page</h1>
-    </main>
-  </body>
-</html>
+
+
+  <style>
+    :root {
+      --bg-main: #f4f7f6;
+      --bg-card: #ffffff;
+      --primary: #2563eb;
+      --primary-soft: #eff6ff;
+      --secondary: #0d9488;
+      --secondary-soft: #f0fdfa;
+      --accent: #e11d48;
+      --text-dark: #1e293b;
+      --text-muted: #64748b;
+      --border-color: #cbd5e1;
+    }
+
+    body {
+      font-family: 'Noto Sans KR', sans-serif;
+      background-color: var(--bg-main);
+      color: var(--text-dark);
+      margin: 0;
+      padding: 0;
+      line-height: 1.8;
+      word-break: keep-all;
+    }
+
+    .wrapper {
+      max-width: 900px;
+      margin: 40px auto;
+      background: var(--bg-card);
+      padding: 40px;
+      border-radius: 16px;
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.05);
+    }
+
+    header {
+      border-bottom: 2px solid var(--primary-soft);
+      padding-bottom: 20px;
+      margin-bottom: 30px;
+    }
+
+    h1 {
+      font-size: 2.4em;
+      color: var(--primary);
+      margin: 0 0 10px 0;
+      font-weight: 900;
+      letter-spacing: -1px;
+    }
+
+    .meta-info {
+      font-size: 0.9em;
+      color: var(--text-muted);
+    }
+
+    h2 {
+      font-size: 1.7em;
+      color: var(--secondary);
+      margin-top: 1.8em;
+      margin-bottom: 0.8em;
+      border-left: 5px solid var(--secondary);
+      padding-left: 12px;
+      font-weight: 700;
+    }
+
+    h3 {
+      font-size: 1.25em;
+      color: var(--primary);
+      margin-top: 1.4em;
+      margin-bottom: 0.6em;
+      font-weight: 600;
+    }
+
+    p {
+      margin-bottom: 1.2em;
+      text-align: justify;
+    }
+
+    .highlight {
+      background-color: #fef08a;
+      padding: 2px 6px;
+      border-radius: 4px;
+      font-weight: 600;
+    }
+
+    .important-box {
+      background-color: var(--primary-soft);
+      border-left: 4px solid var(--primary);
+      padding: 20px;
+      border-radius: 8px;
+      margin: 20px 0;
+    }
+
+    .important-box p:last-child {
+      margin-bottom: 0;
+    }
+
+    .grid-container {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 20px;
+      margin: 20px 0;
+    }
+
+    @media (max-width: 768px) {
+      .grid-container {
+        grid-template-columns: 1fr;
+      }
+      .wrapper {
+        padding: 20px;
+        margin: 10px;
+      }
+      h1 {
+        font-size: 1.8em;
+      }
+    }
+
+    .comparison-table {
+      width: 100%;
+      border-collapse: collapse;
+      margin: 25px 0;
+      font-size: 0.95em;
+    }
+
+    .comparison-table th, .comparison-table td {
+      border: 1px solid var(--border-color);
+      padding: 12px 15px;
+      text-align: center;
+    }
+
+    .comparison-table th {
+      background-color: var(--primary-soft);
+      color: var(--primary);
+      font-weight: 700;
+    }
+
+    .comparison-table tr:nth-child(even) {
+      background-color: #fafbfc;
+    }
+
+    .calculator-container {
+      background: var(--secondary-soft);
+      border: 1px solid #ccfbf1;
+      padding: 30px;
+      border-radius: 12px;
+      margin: 30px 0;
+    }
+
+    .calculator-title {
+      font-size: 1.3em;
+      color: var(--secondary);
+      font-weight: 700;
+      margin-bottom: 20px;
+      text-align: center;
+    }
+
+    .form-group {
+      margin-bottom: 18px;
+    }
+
+    .form-group label {
+      display: block;
+      margin-bottom: 8px;
+      font-weight: 600;
+      color: var(--text-dark);
+    }
+
+    .form-group input, .form-group select {
+      width: 100%;
+      padding: 10px 12px;
+      border: 1px solid var(--border-color);
+      border-radius: 6px;
+      background-color: #ffffff;
+      font-size: 1em;
+      box-sizing: border-box;
+    }
+
+    .form-group input:focus, .form-group select:focus {
+      outline: none;
+      border-color: var(--secondary);
+      box-shadow: 0 0 0 3px rgba(13, 148, 136, 0.15);
+    }
+
+    .calc-btn {
+      width: 100%;
+      padding: 12px;
+      background-color: var(--secondary);
+      color: #ffffff;
+      border: none;
+      border-radius: 6px;
+      font-size: 1.1em;
+      font-weight: 700;
+      cursor: pointer;
+      transition: background-color 0.2s;
+    }
+
+    .calc-btn:hover {
+      background-color: #0f766e;
+    }
+
+    .calc-result-box {
+      margin-top: 25px;
+      padding: 20px;
+      background-color: #ffffff;
+      border: 1px solid #e2e8f0;
+      border-radius: 8px;
+      display: none;
+    }
+
+    .calc-result-title {
+      font-size: 1.1em;
+      font-weight: 700;
+      color: var(--text-dark);
+      margin-bottom: 10px;
+    }
+
+    .calc-result-value {
+      font-size: 1.4em;
+      font-weight: 900;
+      color: var(--accent);
+      margin-bottom: 15px;
+    }
+
+    .chart-container {
+      background: #fafafa;
+      border: 1px solid #e2e8f0;
+      border-radius: 12px;
+      padding: 25px;
+      margin: 30px 0;
+    }
+
+    .chart-title {
+      font-weight: 700;
+      font-size: 1.1em;
+      margin-bottom: 15px;
+      text-align: center;
+      color: var(--text-dark);
+    }
+
+    .chart-bar-wrapper {
+      margin-bottom: 12px;
+    }
+
+    .chart-label {
+      font-size: 0.85em;
+      color: var(--text-muted);
+      margin-bottom: 4px;
+    }
+
+    .chart-bar-track {
+      background: #e2e8f0;
+      border-radius: 6px;
+      height: 24px;
+      overflow: hidden;
+      position: relative;
+    }
+
+    .chart-bar-fill {
+      height: 100%;
+      border-radius: 6px;
+      display: flex;
+      align-items: center;
+      padding-left: 10px;
+      color: #ffffff;
+      font-size: 0.85em;
+      font-weight: bold;
+      transition: width 1s ease-in-out;
+    }
+
+    .search-section {
+      background-color: #f8fafc;
+      border: 1px solid #e2e8f0;
+      padding: 25px;
+      border-radius: 12px;
+      margin: 30px 0;
+    }
+
+    .search-title {
+      font-size: 1.15em;
+      font-weight: 700;
+      color: var(--primary);
+      margin-bottom: 15px;
+    }
+
+    .search-input-group {
+      display: flex;
+      gap: 10px;
+    }
+
+    .search-input-group input {
+      flex: 1;
+      padding: 10px;
+      border: 1px solid var(--border-color);
+      border-radius: 6px;
+    }
+
+    .search-btn {
+      padding: 10px 20px;
+      background-color: var(--primary);
+      color: white;
+      border: none;
+      border-radius: 6px;
+      font-weight: bold;
+      cursor: pointer;
+    }
+
+    .search-btn:hover {
+      background-color: #1d4ed8;
+    }
+
+    .search-results {
+      margin-top: 15px;
+      background: white;
+      border-radius: 6px;
+      border: 1px solid #f1f5f9;
+      display: none;
+      padding: 15px;
+    }
+
+    .faq-container {
+      margin-top: 40px;
+    }
+
+    .faq-item {
+      border-bottom: 1px solid #e2e8f0;
+      padding: 15px 0;
+    }
+
+    .faq-question {
+      font-weight: 700;
+      font-size: 1.1em;
+      color: var(--text-dark);
+      cursor: pointer;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .faq-answer {
+      margin-top: 10px;
+      color: var(--text-muted);
+      display: none;
+      font-size: 0.95em;
+    }
+
+    .external-links {
+      background-color: #fafbfc;
+      border: 1px solid #e2e8f0;
+      padding: 20px;
+      border-radius: 8px;
+      margin-top: 40px;
+    }
+
+    .external-links ul {
+      list-style-type: none;
+      padding: 0;
+      margin: 0;
+    }
+
+    .external-links li {
+      margin-bottom: 10px;
+    }
+
+    .external-links a {
+      color: var(--primary);
+      text-decoration: none;
+      font-weight: 500;
+    }
+
+    .external-links a:hover {
+      text-decoration: underline;
+    }
+
+    footer {
+      text-align: center;
+      margin-top: 50px;
+      padding-top: 20px;
+      border-top: 1px solid #e2e8f0;
+      font-size: 0.85em;
+      color: var(--text-muted);
+    }
+  </style>
+
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "Article",
+    "headline": "2026년 자동차보험 할인할증 등급 조회 및 연령별 모델별 보험료 최적화 가이드",
+    "description": "2026년 최신 개정 요율을 반영한 자동차보험 할인할증 등급 조회 방법, 연령별 및 모델별 평균 예상 보험료 계산법, 그리고 사고 시 할증 부담을 줄이는 최저가 가입 혜택 노하우를 상세히 안내합니다.",
+    "image": "https://finance.reliabledone.com/images/car-insurance-grade-banner.jpg",
+    "author": {
+      "@type": "Organization",
+      "name": "금융 정보 분석 연구소"
+    },
+    "publisher": {
+      "@type": "Organization",
+      "name": "금융 정보 분석 연구소",
+      "logo": {
+        "@type": "ImageObject",
+        "url": "https://finance.reliabledone.com/images/logo.png"
+      }
+    },
+    "datePublished": "2026-07-23T09:00:00+09:00",
+    "dateModified": "2026-07-23T09:00:00+09:00",
+    "mainEntityOfPage": {
+      "@type": "WebPage",
+      "@id": "https://finance.reliabledone.com/car-insurance-grade"
+    }
+  }
+  </script>
+  
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    "mainEntity": [
+      {
+        "@type": "Question",
+        "name": "자동차보험 할인할증 등급이란 무엇인가요?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "자동차보험 할인할증 등급은 개인의 사고 이력을 바탕으로 1등급(Z)부터 29등급(Z)까지 분류하여 보험료 요율을 다르게 적용하는 제도입니다. 최초 가입 시에는 11등급(Z)에서 시작하며, 1년 동안 사고가 없으면 등급이 올라가서 할인을 받고, 본인 과실 사고가 발생하면 등급이 내려가며 할증이 적용됩니다."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "사고 발생 시 할인할증 등급은 얼마나 내려가나요?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "사고의 크기와 원인에 따라 사고 점수가 산정되며, 통상 대인 사고나 대물 사고의 크기가 물적사고 할증기준금액(일반적으로 200만원)을 초과할 경우 1점당 1등급이 하락합니다. 사고 점수가 1점이면 다음 해 갱신 시 등급이 1단계 낮아져 할증 요율이 적용되며, 이 영향은 3년간 지속됩니다."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "2026년 현재 할인할증 등급 조회는 어떻게 편리하게 할 수 있나요?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "보험개발원에서 운영하는 공식 조회 시스템이나 가입한 개별 다이렉트 보험사 앱을 통해 확인할 수 있습니다. 최근에는 토스, 카카오페이 등 모바일 핀테크 어플을 통해서도 간편 본인인증만으로 현재 본인의 등급과 과거 사고 이력, 과납 보험료 여부까지 원스톱 조회가 가능해졌습니다."
+        }
+      }
+    ]
+  }
+  </script>
+</head>
+
+<body>
+  <div class="wrapper">
+    <header>
+      <h1>2026년 자동차보험 할인할증 등급 조회 및 연령별 모델별 보험료 최적화 가이드</h1>
+      <div class="meta-info">
+        작성일: 2026년 7월 23일 | 작성자: 금융 정보 분석 연구소 | 분류: 자동차 금융 서비스
+      </div>
+    </header>
+
+    <p>매년 자동차를 소유한 차주라면 의무적으로 가입하고 갱신해야 하는 자동차보험은 설계 구조와 할인 요율의 적용 방식이 대단히 복잡합니다. 특히 매해 갱신 시점이 도래할 때마다 특별한 사고를 내지 않았음에도 불구하고 보험료가 인상되었다는 알림을 받고 당혹감을 감추지 못하는 운전자들이 많습니다. 이러한 현상이 발생하는 근본적인 이유는 바로 본인의 할인할증 등급 변동과 손해보험사들의 전반적인 기본 요율 조정 정책이 맞물려 작용하기 때문입니다.</p>
+
+    <p>본 가이드에서는 2026년 최신 금융감독원 및 보험개발원 데이터를 기반으로 본인의 현재 할인할증 등급을 상세히 파악하는 구체적인 방법부터 시작하여, 연령별 및 차량 모델별 평균 예상 보험료에 미치는 영향력을 일목요연하게 정리해 드리겠습니다. 또한, 다양한 다이렉트 할인 특약과 누락된 운전 경력을 소급하여 환급받는 일종의 성지 노하우까지 빠짐없이 다루어 지출 비용을 획기적으로 낮출 수 있는 실질적인 정보를 제공합니다.</p>
+
+    <div class="important-box">
+      <h3>2026년 자동차보험 핵심 동향 요약</h3>
+      <p>대형 손해보험사들의 평균 손해율이 손익분기점인 80%를 훌쩍 넘어 87% 선에 육박함에 따라, 2026년 초 주요 브랜드사들은 자동차보험료 기본 요율을 약 1.3%에서 1.4% 수준으로 일제히 인상 적용하기 시작했습니다. 이에 따라 개개인이 누릴 수 있는 할인 혜택을 꼼꼼하게 챙기지 않는다면 고정비 지출 부담이 더욱 가중될 전망입니다.</p>
+    </div>
+
+    <h2>1. 자동차보험 할인할증 등급제도의 개념과 평가 원리</h2>
+    <p>자동차보험 요금 수준을 결정짓는 가장 강력한 평가지표 중 하나는 바로 우량할인 불량할증요율 제도, 즉 할인할증 등급입니다. 이 제도는 운전자의 안전운전 의식을 고취하고 사고 유발자와 무사고 가입자 간의 형평성을 제고하기 위하여 도입되었습니다.</p>
+    
+    <p>국내 개인용 승용차 기준으로 할인할증 등급은 최저 1등급(Z)부터 최고 29등급(Z)까지 총 29단계로 세분되어 있습니다. 처음 면허를 취득하고 신규 자동차보험에 가입하는 가입자는 누구 예외 없이 표준 등급인 11등급(11Z)에서 최초 설정을 시작하게 됩니다. 이후 1개년 동안 아무런 사고 없이 무사고 상태를 완벽히 유지한다면 다음 해 갱신 시점에 등급이 1단계 상승하여 12Z 등급이 적용되며 요금이 내려갑니다. 반면, 본인 과실로 사고가 발생하게 되면 사고의 성격과 피해 규모에 따라 부여되는 사고 점수를 기반으로 등급이 대폭 하락하게 되며 요금은 가파르게 할증됩니다.</p>
+
+    <table class="comparison-table">
+      <thead>
+        <tr>
+          <th>할인할증 등급</th>
+          <th>요율의 의미</th>
+          <th>기본 요율 대비 요금 수준 (평균 예시)</th>
+          <th>가입 기간 및 사고 이력 요건</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>1등급(Z) ~ 10등급(Z)</td>
+          <td>고할증 위험군</td>
+          <td>기준 요율의 약 110% ~ 200% 수준 부과</td>
+          <td>단기간 내 다수의 중대 사고를 유발한 경우</td>
+        </tr>
+        <tr>
+          <td>11등급(Z)</td>
+          <td>기본값 (출발점)</td>
+          <td>기준 요율의 100% 적용 (원형 금액)</td>
+          <td>최초 면허 취득 후 신규 가입자</td>
+        </tr>
+        <tr>
+          <td>12등급(Z) ~ 20등급(Z)</td>
+          <td>중간 할인 구간</td>
+          <td>기준 요율의 약 70% ~ 95% 수준으로 할인</td>
+          <td>무사고 유지 기간이 1년에서 9년 미만인 상태</td>
+        </tr>
+        <tr>
+          <td>21등급(Z) ~ 28등급(Z)</td>
+          <td>고할인 우량군</td>
+          <td>기준 요율의 약 40% ~ 65% 수준으로 대폭 감면</td>
+          <td>장기 무사고 경력을 보유한 모범 운전자</td>
+        </tr>
+        <tr>
+          <td>29등급(Z)</td>
+          <td>최대 할인 종착지</td>
+          <td>최저 적용 요율인 약 30% 중반대만 납부</td>
+          <td>최소 18년 이상 중대 사고가 전혀 없는 마스터 드라이버</td>
+        </tr>
+      </tbody>
+    </table>
+
+    <p>여기서 알파벳 Z는 보통 등급(Zone)을 의미하며, 간혹 소수점 이하의 세밀한 비율 조정을 위해 F(Favorable) 등급이 존재하기도 합니다. F등급은 보통 해당 등급과 직전 하위 등급의 중간 요율을 산술평균하여 유연성을 두는 완충 지대 역할을 합니다. 궁극적으로 운전자가 무사고 경력을 길게 유지할수록 등급 숫자가 커지며, 29등급에 가입되어 있는 차주는 11등급 신규 가입자에 비해 동일 차량이라 하더라도 연간 지출하는 납부 요금 면에서 최대 2배에서 3배 이상의 극적인 가격 장단점과 혜택 차이를 경험하게 됩니다.</p>
+
+    <h2>2. 2026년 연령별 및 나이대별 자동차보험료 가격 비교</h2>
+    <p>자동차보험의 연간 계약 금액을 산출하는 공식에는 등급 요율뿐만 아니라 피보험자의 생년월일, 즉 연령별 리스크 산정 방식이 대단히 큰 지분을 차지하고 있습니다. 손해보험업계 전문 통계 자료에 따르면, 만 20대 초반의 미숙련 드라이버 그룹과 만 40대 중후반의 능숙 드라이버 그룹 간에는 동일 등급이라 할지라도 사고 위험도 편차로 인해 평균적으로 책정되는 보험료 기본 금액에 어마어마한 가격 편차가 발생합니다.</p>
+
+    <div class="chart-container">
+      <div class="chart-title">2026년 기준 연령별 가입자 평균 예상 보험료 (원형 차량 기준 연간 추산 금액)</div>
+      <div class="chart-bar-wrapper">
+        <div class="chart-label">만 21세 이하 (신규 가입 평균, 11Z 기준)</div>
+        <div class="chart-bar-track">
+          <div class="chart-bar-fill" style="width: 100%; background-color: var(--accent);">약 1,600,000원</div>
+        </div>
+      </div>
+      <div class="chart-bar-wrapper">
+        <div class="chart-label">만 26세 이상 (안정기 진입 시점, 11Z 기준)</div>
+        <div class="chart-bar-track">
+          <div class="chart-bar-fill" style="width: 62%; background-color: var(--primary);">약 990,000원</div>
+        </div>
+      </div>
+      <div class="chart-bar-wrapper">
+        <div class="chart-label">만 35세 ~ 49세 이하 (최저가 혜택 구간, 무사고 누적 적용)</div>
+        <div class="chart-bar-track">
+          <div class="chart-bar-fill" style="width: 41%; background-color: var(--secondary);">약 650,000원</div>
+        </div>
+      </div>
+      <div class="chart-bar-wrapper">
+        <div class="chart-label">만 65세 이상 (실버 연령층 운행 요율 조정 반영)</div>
+        <div class="chart-bar-track">
+          <div class="chart-bar-fill" style="width: 53%; background-color: #f59e0b;">약 850,000원</div>
+        </div>
+      </div>
+    </div>
+
+    <p>분석 그래프를 살펴보면 명확하듯, 만 21세 이하 신규 운전자의 요금 부담률이 가장 높게 형성됩니다. 통계학적으로 이 시기의 운전자들은 제동거리 판단 착오 및 도로 적응력 부족으로 자잘한 대인, 대물 사고를 일으킬 개연성이 농후하기 때문입니다. 그러나 만 26세 이상 한정운전 특약 및 만 30세 이상 연령 제한 특약에 하나씩 충족될 때마다, 보험사가 느끼는 리스크 분담률이 급감하여 최초 산정 요금제 자체가 몰라보게 하락하기 시작합니다.</p>
+
+    <p>특히 부모님 명의의 패밀리 자동차보험에 1인 패키지 추가 지정을 하는 등의 지름길을 택하지 않고 단독으로 가입할 때에는 반드시 최초 가입 시 본인이 소지한 군 운전병 복무 경력, 관공서 관용 차량 운행 이력, 혹은 해외 한인 가입 기록 등을 모두 서류로 제출하여 경력 누락에 따른 불이익을 상쇄해야 요금의 가장 저렴한곳 가입이 가능해집니다.</p>
+
+    <h2>3. 국산 및 수입 차량 모델별 등급과 자기차량손해 요금 구조</h2>
+    <p>많은 분이 흔히 간과하는 할인할증의 주요 축 중 하나는 바로 차량 모델별 등급 제도입니다. 이는 개별 운전자의 사고 패턴과 별개로, 도로 위를 달리는 각 특정 브랜드 및 세부 차량 종류의 고유한 수리비 손해 통계를 기반으로 총 1등급부터 26등급까지 등급을 매겨서 차별화하는 방법입니다.</p>
+
+    <p>이 모델별 등급은 보험개발원에서 매년 정밀하게 조정하고 공시하는데, 26등급에 가까울수록 안전도가 높고 부품 가격이 상대적으로 저렴하여 사고가 나도 수리비 비용이 적게 나오기 때문에 자기차량손해 담보 요금이 제일 낮게 산정됩니다. 반대로 1등급에 배정된 스포츠카나 부품 조달이 지극히 까다로운 특정 수입차 모델의 경우, 자차 특약 가입 시 일반 패밀리 세단 대비 상상 이상으로 막대한 수리비 추가 부담 비용을 청구당하게 됩니다.</p>
+
+    <div class="search-section">
+      <div class="search-title">실시간 자동차 모델별 대표 등급 데이터 간편 확인</div>
+      <p>조회하고자 하는 국내외 주요 대표 차종을 선택하시거나 입력하여 차량별 보험개발원 기준 할인 등급의 특징을 바로 분석해 보세요.</p>
+      
+      <div class="search-input-group">
+        <input type="text" id="carModelInput" placeholder="예: 아반떼, 그랜저, 쏘렌토 등 입력">
+        <button class="search-btn" onclick="searchCarModel()">데이터 검색</button>
+      </div>
+
+      <div class="search-results" id="searchResultsBox">
+        <div id="searchResultText"></div>
+      </div>
+    </div>
+
+    <p>국산차를 구매하여 운전하는 유저들이 비교적 자차 금액을 아낄 수 있는 비결도 바로 이 모델별 관리 체계에 숨어 있습니다. 예를 들어, 동일한 1600cc 급의 준중형 차량이라 하더라도 어떤 특정 모델이 부품 호환성이 뛰어나고 수리가 용이하여 손해율 통계에서 고등급인 20등급 이상을 유지하고 있다면, 자차 보장을 아무리 탄탄하게 추가해도 실 부담 가격이 상대적으로 싼곳으로 유지되는 단단한 단기 메커니즘을 보여줍니다. 이로 인해 신규 차량을 출고하기 전에 반드시 본인이 타게 될 해당 트림의 차량 요율 순위 정보를 미세하게 조율하는 절차가 추천됩니다.</p>
+
+    <h2>4. 본인의 실시간 할인할증 등급 간편 조회 방법</h2>
+    <p>자신이 수년간 무사고로 주행하였음에도 정확히 몇 등급에 포진되어 있는지, 그리고 억울한 교통 과실 여파로 할증 누적 점수가 얼마나 차 올랐는지 제대로 알고 있는 가입자는 드뭅니다. 2026년 현재는 굳이 가입되어 있는 대형 다이렉트 보험 업체의 전화 고객센터 대기선에 머무르며 오랜 시간 상담 조율 절차를 거치지 않더라도, 본인 인증 한 번으로 인터넷 상에서 일괄 1초 만에 확인해 내는 스마트 원스톱 조회 방법들이 널리 상용화되어 있습니다.</p>
+
+    <div class="grid-container">
+      <div style="background-color: #f8fafc; padding: 20px; border-radius: 8px; border: 1px solid var(--border-color);">
+        <h3 style="margin-top:0;">보험개발원 할인할증 조회시스템</h3>
+        <p>가장 공인된 전문 정부 지원 데이터 연동 기관인 보험개발원 전산망 포털에 접속하면 본인의 과거 10년간 상세 사고 경력, 벌점 누적 수준, 전속 계약 기간 동안의 등급 변동 추이를 정밀 분석 보고서 형태로 즉각 발급받을 수 있습니다. 경력 누락으로 발생한 숨은 과납 환급금 신청도 이 전산망의 소급 연동 시스템을 통해 동시에 이루어지는 장점이 있습니다.</p>
+      </div>
+      <div style="background-color: #f8fafc; padding: 20px; border-radius: 8px; border: 1px solid var(--border-color);">
+        <h3 style="margin-top:0;">모바일 핀테크 어플 통합 연동</h3>
+        <p>최근에는 일상적으로 사용하는 토스 어플 내의 차량 종합 관리 탭이나 카카오페이, 네이버페이 금융 플랫폼 등을 이용하여 본인인증을 터치 몇 번으로 통과하면, 복잡한 인증서 연동 없이도 현재 내 할인 등급과 만기 갱신 시 예상되는 연간 기본 견적 금액 시뮬레이션을 눈앞에 바로 구현해 줍니다. 펨코, 에펨코리아의 자차 게시판 유저들도 이러한 접근법을 성지 좌표로 지목하곤 합니다.</p>
+      </div>
+    </div>
+
+    <p>이렇게 조회한 본인의 등급이 예상보다 불합리하게 낮게 책정되어 있다면 가입 이력 중 군경력 누락, 직장 법인 운전직 경력 등이 전산에 반영되지 않고 기본 신규 취급을 받고 있지 않은지 심층적으로 살펴보아야 합니다. 이러한 사유로 과다 징수된 요금은 과거 5년 치 내역에 대하여 일시에 신청하여 소환 수령할 수 있도록 법적 권리가 완전하게 보장되어 있으므로 반드시 짚고 넘어가야 하는 핵심 혜택 사항입니다.</p>
+
+    <h2>5. 사고 발생 시 요금 할증 시뮬레이션 계산기</h2>
+    <p>만약 경미한 접촉사고나 전방 자차 파손 사고가 발생했다면, 이를 자신의 사비로 해결하는 것이 이로울지 아니면 전격 가입한 종합보험 자차 처리를 진행하는 것이 장기적으로 가격 메리트가 클지 치열한 계산이 서게 됩니다. 보통 가입 단계에서 설정하는 물적사고 할증기준금액 200만 원 한도선을 기준으로 할증 등급의 하락 시나리오가 완벽하게 분기됩니다.</p>
+
+    <p>본인 과실 사고로 인해 보험사가 보상해 준 대인, 대물, 자차 합산 보상 누계액이 가입 당시 지정한 물적 할증 한도액(통상 200만 원)을 상회하는 경우, 무조건 사고 점수 1점이 가산되어 다음 해 갱신 등급이 1단계 강등되며 3년간 할인 유예 및 연쇄 할증이 고정되는 패널티 요인이 가동됩니다. 반면 200만 원 이하의 소액 수리 처리는 사고 건수 요율에만 잡혀 당장 대폭의 등급 하락은 면하더라도, 향후 3년간 매년 예정되어 있던 등급 승급에 따른 자연 할인 기회를 모조리 박탈당하는 보이지 않는 숨은 기회비용이 발생합니다.</p>
+
+    <div class="calculator-container">
+      <div class="calculator-title">2026 자동차보험 할인할증 및 향후 3개년 누적 비용 변동 계산기</div>
+      
+      <div class="form-group">
+        <label for="calcPremium">현재 연간 총 납입 보험료 (원 단위로 입력)</label>
+        <input type="number" id="calcPremium" value="800000" min="100000" step="10000">
+      </div>
+
+      <div class="form-group">
+        <label for="calcGrade">현재 적용 중인 할인할증 등급</label>
+        <select id="calcGrade">
+          <option value="11Z" selected>11Z등급 (신규 / 기본 표준등급)</option>
+          <option value="15Z">15Z등급 (약 4~5년 무사고 우량군)</option>
+          <option value="20Z">20Z등급 (약 9~10년 무사고 베테랑)</option>
+          <option value="25Z">25Z등급 (장기 무사고 초우량군)</option>
+          <option value="29Z">29Z등급 (마스터 드라이버 / 최대 할인군)</option>
+        </select>
+      </div>
+
+      <div class="form-group">
+        <label for="accidentType">향후 1년간 발생한 예상 사고 시나리오</label>
+        <select id="accidentType">
+          <option value="no_accident">완벽 무사고 유지 (1년 완주)</option>
+          <option value="small_accident">소액 물적사고 1건 발생 (지정 한도 200만원 이하 처리)</option>
+          <option value="large_accident">물적사고 한도 초과 또는 중대 대인 사고 1건 발생</option>
+        </select>
+      </div>
+
+      <button type="button" class="calc-btn" onclick="runSimulation()">등급 변동 및 예상 누적금액 도출하기</button>
+
+      <div class="calc-result-box" id="simResultBox">
+        <div class="calc-result-title">갱신 시 예상 등급 변동 추산 결과</div>
+        <div class="calc-result-value" id="resGrade">등급 변동 정보 로딩 필요</div>
+        
+        <p id="resDesc" style="font-size: 0.95em; color: var(--text-dark);"></p>
+        
+        <table class="comparison-table" style="margin-top: 15px; font-size: 0.85em;">
+          <thead>
+            <tr>
+              <th>구분</th>
+              <th>다음 해 (1년 차)</th>
+              <th>다다음 해 (2년 차)</th>
+              <th>3년 차 누적 합계</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>예상 요율 및 요금 변동액</td>
+              <td id="year1Cost">계산 대기 중</td>
+              <td id="year2Cost">계산 대기 중</td>
+              <td id="year3Cost" style="font-weight: bold; color: var(--accent);">계산 대기 중</td>
+            </tr>
+          </tbody>
+        </table>
+        <p style="font-size: 0.8em; color: var(--text-muted); margin-top: 5px;">본 계산 수치는 2026년 6월 개정된 KB손해보험 및 메이저 브랜드의 개인용 평균 요율 데이터를 단순 대입하여 시뮬레이션한 가이드라인 금액이며, 운전자의 추가 가입경력 및 법규 위반 여부에 따라 개별 차이가 존재할 수 있습니다.</p>
+      </div>
+    </div>
+
+    <h2>6. 다이렉트 최저가 설계 성지와 현명한 비용 절약 수단</h2>
+    <p>아무리 가혹한 사고 점수로 인해 다음 해 등급이 내려앉았거나, 연령대가 낮아 요금의 절대적 바탕 금액이 높은 환경이라 하더라도, 메이저 다이렉트 브랜드들이 제공하는 각양각색의 모바일 할인 특약을 융합하여 정교하게 설계하면 도출되는 요금 최저가 견적을 최대 절반 가까이 아낄 수 있는 실용적 방법들이 분명히 실존합니다.</p>
+
+    <ul>
+      <li>티맵 및 카카오내비 안전점수 연계 특약: 에펨코리아나 펨코 등 차량 매니아 포럼에서 최고의 꿀팁으로 불리는 안전운전 점수 연동은, 평소 급감속과 급가속을 자제하여 80점 이상의 지표를 증빙하면 연간 납입금의 최대 12%에서 13%까지 즉시 깎아 주는 고효율 장치입니다.</li>
+      <li>마일리지 연간 주행거리 특약: 연간 주행하는 실거리가 3,000km 미만으로 짧거나 주말 위주로 드라이브를 나가는 차주들의 경우, 만기 도달 시 주행 누적 계기판 사진만 촬영하여 온라인 등록을 완료하면 최대 35% 이상의 무지막지한 납입 현금 환급금을 통장으로 다시 되돌려 받습니다.</li>
+      <li>부부 한정 및 패밀리 지정 연령 한정 특약: 운전자의 한정 범위 설정에 있어서 단 한 명이라도 운행하지 않는 유령 운전자가 명단에 들어가지 않도록 범위를 단단하게 축소하는 것 역시 무의미하게 과지출되는 수십만 원의 고정 비용을 차단하는 기본 상식입니다.</li>
+      <li>블랙박스 및 빌트인 캠 탑재 특약: 차량 출고 단계에서 전후방 고화질 블랙박스가 설치되어 있음을 모바일 사진 업로드 방식으로 증빙하면 통상 3% 대의 연간 기본 감면 혜택을 수령할 수 있습니다.</li>
+    </ul>
+
+    <p>인터넷 커뮤니티인 디시 인사이드 자동차 갤러리나 보배드림 등지에서 연일 갱신의 성지라 칭하는 숨은 설계 비법도 결국에는 이 모든 비대면 비접촉 온라인 특약을 한 군데로 집중 결합하는 영리한 소비자 행동에서 출발합니다. 가입 사은품으로 일시 증정하는 일회성 백화점 상품권이나 가벼운 제휴 주유권 혜택에 눈이 팔려 기본 요율표 분석을 등한시하는 일보다는, 평소 불필요한 단기 사고 청구를 피하고 안전 주행 기록을 확실히 관리하여 등급 점수 자체를 20등급 이상으로 끌어올리는 장기 전술이 가장 이상적인 자산 관리의 핵심입니다.</p>
+
+    <h2>7. 인터넷 및 소셜 미디어 플랫폼 상의 오너 리얼 내돈내산 가입 팁</h2>
+    <p>국내 대형 자동차 전문 인프라 사이트 및 다양한 미디어 플랫폼에는 먼저 이 길을 걸으며 시행착오를 겪었던 오너들의 내돈내산 리얼 후기 사례들이 넘쳐나고 있습니다. 유튜브 자동차 정비 및 법률 상담 채널에서도 흔히 접할 수 있듯, 대다수 전문 드라이버들이 입을 모아 역설하는 바는 사소한 미수선 처리나 백만 원대 미만의 자잘한 문콕, 스크래치성 단일 사고 건은 웬만하면 자비로 온전하게 충당하는 것이 먼 미래에 폭탄 형태로 다가올 3개년 누적 할증 벌점 요금을 이겨내는 최고의 방법이라는 점입니다.</p>
+
+    <p>네이버 지식인이나 구글 테크 블로그 리뷰 등을 상세하게 갈무리해 본 결과, 20대 초반에 첫차로 가입하여 사고 1건으로 11Z등급에서 8Z등급까지 등급 수직 하락을 맛보았던 어느 내돈내산 피해자는, 다음 해에 가입을 갱신하려다 동급 대비 거의 두 배에 근접한 250만 원이라는 견적 고지서를 받아보고 절망하여 뒤늦게 해당 사고 금액을 보험사 고객센터에 연락하여 환입 처리함으로써 간신히 요율을 원래대로 수복했다는 뼈저린 경험담을 고백하기도 했습니다.</p>
+
+    <p>더불어 트위터나 인스타그램, 페이스북 같은 SNS를 통해서도 자녀가 출생하였을 때 추가 6% 할인이 즉각 가동되는 자녀 특약이나, 텔레그램 메신저 자동차 테크 방에서 전수되는 차종 연식별 맞춤 가성비 가입 성지 좌표 등이 활발하게 유통되고 있습니다. 이 방대한 정보들을 체계적으로 필터링하여 자신의 상황에 딱 맞는 다이렉트 브랜드를 선별해내는 것이야말로, 복잡한 인공지능 제미나이나 챗지피티 기술이 가동되는 현 2026년 시대를 살아가는 오너 드라이버가 지녀야 할 필수 금융 정보 습득 지능이라고 표현할 수 있겠습니다.</p>
+
+    <div class="faq-container">
+      <h2>자주 묻는 질문</h2>
+      
+      <div class="faq-item">
+        <div class="faq-question">
+          Q1. 주차장에 정상 주차되어 있는 내 차량을 타인이 충돌하여 손해를 입은 과실 제로 사고 시에도 등급이 할증되나요?
+          <span>+</span>
+        </div>
+        <div class="faq-answer">
+          본인의 과실 비율이 완벽하게 0%인 무과실 상대방 단독 과실 사고인 경우, 본인 보험의 할인할증 등급 점수가 차감되지 않으며 할증 역시 원칙적으로 발생하지 않습니다. 다만, 1년간 무사고 운전자에게 귀속되는 자연 할인 승급 과정은 약 1년간 유예 처리를 받아 기존 등급 그대로 동결 적용되는 아쉬운 부가 영향은 발생할 수 있습니다.
+        </div>
+      </div>
+
+      <div class="faq-item">
+        <div class="faq-question">
+          Q2. 한 번 하락하여 고정된 할인할증 등급은 도대체 몇 년간 유지되며 회복 속도는 어떻게 되나요?
+          <span>+</span>
+        </div>
+        <div class="faq-answer">
+          사고가 일어나 보험 처리가 완료된 즉시 적용된 등급 하락과 이에 수반된 할증 요율은 기본적으로 다음 해부터 적용되기 시작하며, 향후 3년 동안은 이전 등급 상태로 자력 회복이 전면적으로 정지되는 강력한 3년 할인 유예 패널티가 동시 작동합니다. 사고 이후 매년 성실하게 무사고 기록을 차곡차곡 증빙해 나가야만 비로소 매해 1단계씩 아주 천천히 승급의 길이 다시 열리게 됩니다.
+        </div>
+      </div>
+
+      <div class="faq-item">
+        <div class="faq-question">
+          Q3. 다이렉트 갱신 당일이 촉박하여 타사 브랜드로 이적 가입하면 혹시 예전 사고 기록이 리셋되어 할인 혜택을 볼 수 있나요?
+          <span>+</span>
+        </div>
+        <div class="faq-answer">
+          절대 불가능합니다. 대한민국에 존재하는 메이저 및 마이너 모든 손해보험사는 물론이며 인터넷 특화 다이렉트 전속 법인에 이르기까지, 모든 차주의 할인할증 등급 변동 이력과 대인, 대물, 자차 청구 원장 데이터는 정부 및 손해보험협회가 지정한 전속 보험개발원 공동 전산 네트워크에 실시간 연계 및 백업 공유되어 있습니다. 회사를 다르게 이동하여 견적을 진행한다 하더라도 기존의 등급은 소수점 자리까지 100% 그대로 승계 적용됩니다.
+        </div>
+      </div>
+    </div>
+
+    <div class="external-links">
+      <h2>신뢰성 및 법적 권위를 갖춘 공식 외부 리소스 링크</h2>
+      <p>아래 제공되는 각 기관별 안전한 공식 원스톱 서비스를 이용하시면, 추가적인 자가 진단 및 개별 조회 절차를 빠르고 완벽하게 연결 진행하실 수 있습니다.</p>
+      <ul>
+        <li><a href="https://directusearchz.reliabledone.com" target="_blank" rel="noopener">금융 정보 허브 – 자동차보험 등급 및 요율 상세 가이드 안내 사이트</a></li>
+        <li><a href="https://namu.wiki/w/%EC%9E%90%EB%8F%99%EC%B0%A8%EB%B3%B4%ED%97%98" target="_blank" rel="noopener">나무위키 – 자동차보험 항목 및 할인 요율 기초 원리 정리</a></li>
+        <li><a href="https://prem.kidi.or.kr" target="_blank" rel="noopener">보험개발원 – 본인 자동차보험료 할인할증 원인 통합 조회시스템 공식 웹스페이스</a></li>
+      </ul>
+    </div>
+
+  </div>
+
+  <script>
+    // FAQ 접기/펼치기 제어 로직
+    document.querySelectorAll('.faq-question').forEach(button => {
+      button.addEventListener('click', () => {
+        const answer = button.nextElementSibling;
+        const icon = button.querySelector('span');
+        
+        if (answer.style.display === 'block') {
+          answer.style.display = 'none';
+          icon.textContent = '+';
+        } else {
+          answer.style.display = 'block';
+          icon.textContent = '-';
+        }
+      });
+    });
+
+    // 국산/수입 대표 차종 간이 모델 등급 데이터베이스 및 검색 로직
+    const carDatabase = {
+      '아반떼': { grade: '21등급', status: '우수', desc: '부품 호환성이 매우 우수하여 사고 수리비가 타 차종 대비 대단히 저렴합니다. 자기차량손해 특약 요율 산출 시 최상위 우량 혜택이 상시 탑재됩니다.' },
+      '그랜저': { grade: '17등급', status: '보통', desc: '중대형 플래그십 차량으로서 평균적인 부품 가격선에 도달해 있습니다. 등급 요율 면에서 모범적이며 적절한 가격 밸런스를 구성합니다.' },
+      '쏘렌토': { grade: '19등급', status: '우수', desc: '국산 대표 패밀리 SUV로서 전방적인 범퍼 및 등화 부품 안전성이 우수하고 파손율 통계가 상대적으로 양호하여 자차 설계 시 비용 면에서 이점이 많습니다.' },
+      '카니발': { grade: '18등급', status: '우수', desc: '가족형 대형 RV 모델로서 사고 발생 시 부품 교체 범위는 넓으나, 전반적인 수리 호환 단가가 낮아 무난한 요율 혜택을 부여받게 됩니다.' },
+      'E클래스': { grade: '11등급', status: '주의', desc: '수입 브랜드로서 전반적인 헤드라이트 및 센서 수리 단가가 기본 국산차 대비 4배 이상 높습니다. 자기차량손해 가입비가 다소 상향 책정될 우려가 있습니다.' },
+      '5시리즈': { grade: '12등급', status: '주의', desc: '알루미늄 바디 패널 비중이 높고 수입 전문 정비 공임 단가가 세게 청구되는 요인을 안고 있습니다. 가급적 안전거리 확보 특약을 함께 가입해 두는 것이 권장됩니다.' }
+    };
+
+    function searchCarModel() {
+      const input = document.getElementById('carModelInput').value.trim();
+      const resultBox = document.getElementById('searchResultsBox');
+      const resultText = document.getElementById('searchResultText');
+      
+      if (!input) {
+        alert('조회하고 싶으신 차량 브랜드나 모델명을 텍스트로 적어 주십시오.');
+        return;
+      }
+
+      let foundKey = null;
+      for (let key in carDatabase) {
+        if (input.toLowerCase().includes(key) || key.includes(input.toLowerCase())) {
+          foundKey = key;
+          break;
+        }
+      }
+
+      resultBox.style.display = 'block';
+      
+      if (foundKey) {
+        const item = carDatabase[foundKey];
+        resultText.innerHTML = `
+          <strong style="color: var(--primary); font-size: 1.1em;">차량명: ${foundKey} (보험개발원 대표 등록 등급)</strong><br>
+          <strong>모델 등급: <span style="color: var(--accent);">${item.grade}</span> (${item.status} 등급 구간)</strong><br>
+          <p style="margin-top: 8px; font-size: 0.9em; color: var(--text-dark);">${item.desc}</p>
+        `;
+      } else {
+        resultText.innerHTML = `
+          <strong>입력하신 "${input}" 모델의 정확한 세부 연식 데이터가 조회되지 않았습니다.</strong><br>
+          <span style="font-size: 0.9em; color: var(--text-muted);">대표 모델(아반떼, 그랜저, 쏘렌토, 카니발, E클래스, 5시리즈) 중 하나를 우선 기입하여 조회를 검토하시기 바랍니다.</span>
+        `;
+      }
+    }
+
+    // 할인할증 변동 및 예상 누적금액 시뮬레이션 계산 알고리즘
+    function runSimulation() {
+      const premium = parseFloat(document.getElementById('calcPremium').value);
+      const startGrade = document.getElementById('calcGrade').value;
+      const accidentType = document.getElementById('accidentType').value;
+      
+      if (isNaN(premium) || premium <= 0) {
+        alert('현재 연간 납부 중인 보험료 총액을 정확한 숫자로 올바르게 기입해 주시기 바랍니다.');
+        return;
+      }
+
+      const resultBox = document.getElementById('simResultBox');
+      const resGrade = document.getElementById('resGrade');
+      const resDesc = document.getElementById('resDesc');
+      
+      const year1CostTd = document.getElementById('year1Cost');
+      const year2CostTd = document.getElementById('year2Cost');
+      const year3CostTd = document.getElementById('year3Cost');
+
+      let nextGrade = '';
+      let multiplier1 = 1.0;
+      let multiplier2 = 1.0;
+      let advice = '';
+
+      if (accidentType === 'no_accident') {
+        // 무사고 등급 상승
+        if (startGrade === '11Z') { nextGrade = '12Z'; multiplier1 = 0.95; multiplier2 = 0.91; }
+        else if (startGrade === '15Z') { nextGrade = '16Z'; multiplier1 = 0.93; multiplier2 = 0.88; }
+        else if (startGrade === '20Z') { nextGrade = '21Z'; multiplier1 = 0.95; multiplier2 = 0.90; }
+        else if (startGrade === '25Z') { nextGrade = '26Z'; multiplier1 = 0.95; multiplier2 = 0.92; }
+        else if (startGrade === '29Z') { nextGrade = '29Z'; multiplier1 = 1.0; multiplier2 = 1.0; } // 이미 맥스
+        
+        advice = '매우 모범적인 무사고 운행 실적을 이어나가고 계십니다. 다음 갱신 계약에서도 큰 폭의 등급 혜택 상승과 더불어 요금 할인 기조가 탄탄히 이어질 전망입니다.';
+        resGrade.textContent = `변동 없음 혹은 등급 한 단계 상승 (${startGrade} -> ${nextGrade})`;
+        resGrade.style.color = 'var(--secondary)';
+      } 
+      else if (accidentType === 'small_accident') {
+        // 소액 사고 - 건수만 오르고 등급 자체는 유지되는 경향 (다만, 3년간 무사고 등급상승 차단 및 약할증)
+        nextGrade = startGrade;
+        multiplier1 = 1.08; // 약 8% 요율 인상
+        multiplier2 = 1.06; // 할증 기조 유지
+        
+        advice = '물적 한도인 200만 원은 넘지 않아 등급이 크게 폭락하진 않았지만, 사고 건수 특성요율이 새롭게 부과되어 약 6%~10% 수준의 보험료 상승 요인이 발생하며 3개년간 승급 기회가 가로막혀 총 누적액 대비 손실이 늘어납니다.';
+        resGrade.textContent = `등급 동결 처리 및 건수 요율 별도 할증 (${startGrade} 유지)`;
+        resGrade.style.color = '#f59e0b';
+      } 
+      else if (accidentType === 'large_accident') {
+        // 대인/대형물적사고 - 등급 강등 적용
+        if (startGrade === '11Z') { nextGrade = '8Z'; multiplier1 = 1.25; multiplier2 = 1.20; }
+        else if (startGrade === '15Z') { nextGrade = '12Z'; multiplier1 = 1.22; multiplier2 = 1.18; }
+        else if (startGrade === '20Z') { nextGrade = '17Z'; multiplier1 = 1.20; multiplier2 = 1.15; }
+        else if (startGrade === '25Z') { nextGrade = '22Z'; multiplier1 = 1.18; multiplier2 = 1.13; }
+        else if (startGrade === '29Z') { nextGrade = '26Z'; multiplier1 = 1.18; multiplier2 = 1.13; }
+        
+        advice = '물적 사고 한도가 초과되어 사고점수 1점 이상이 적용되어 등급이 3단계 가량 수직 하락했습니다. 이로 인해 다음 해 보험료에 최저 18% 이상의 급격한 할증 요율이 적용되며, 이 불리한 구조는 향후 3년간 지속적으로 운전자를 압박하게 됩니다.';
+        resGrade.textContent = `할인할증 등급 3단계 강등 (${startGrade} -> ${nextGrade})`;
+        resGrade.style.color = 'var(--accent)';
+      }
+
+      // 3개년 비용 계산 모델
+      const year1Cost = Math.round(premium * multiplier1);
+      const year2Cost = Math.round(premium * multiplier2);
+      const cumulativeCost = Math.round(year1Cost + year2Cost + (premium * multiplier2 * 0.98));
+
+      year1CostTd.textContent = `약 ${year1Cost.toLocaleString()} 원`;
+      year2CostTd.textContent = `약 ${year2Cost.toLocaleString()} 원`;
+      year3CostTd.textContent = `총합 약 ${cumulativeCost.toLocaleString()} 원`;
+
+      resDesc.textContent = advice;
+      resultBox.style.display = 'block';
+    }
+  </script>
+  
